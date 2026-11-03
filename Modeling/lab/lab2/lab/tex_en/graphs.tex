@@ -1,0 +1,76 @@
+% ---------- transition graph of SYSTEM_1 ----------
+\newcommand{\graphOne}{%
+\begin{tikzpicture}[>=Stealth, st/.style={circle, draw, thick, minimum size=10mm, inner sep=0pt, font=\small},
+  lab/.style={font=\scriptsize, fill=white, inner sep=1pt}, x=2.75cm, y=2.15cm]
+\foreach \a in {0,...,3}{\foreach \c in {0,...,3}{
+  \pgfmathtruncatemacro{\k}{\a*4+\c+1}
+  \node[st] (s\a\c) at (\c,-\a) {\a\c};
+  \node[font=\tiny, text=gray, above left=-1.5mm and -1.5mm of s\a\c] {$E_{\k}$};
+}}
+\foreach \a in {0,...,3}{\foreach \c [evaluate=\c as \cn using int(\c+1)] in {0,1,2}{
+  \draw[->] (s\a\c) to[bend left=18] node[lab, above]{$\lambda_2$} (s\a\cn);
+  \draw[->] (s\a\cn) to[bend left=18] node[lab, below]{$\mu$} (s\a\c);
+}}
+\foreach \c in {0,...,3}{\foreach \a [evaluate=\a as \an using int(\a+1)] in {0,1,2}{
+  \draw[->] (s\a\c) to[bend right=18] node[lab, left]{$\lambda_1$} (s\an\c);
+  \draw[->] (s\an\c) to[bend right=18] node[lab, right]{$\mu$} (s\a\c);
+}}
+\end{tikzpicture}}
+
+% ---------- transition graph of SYSTEM_2 ----------
+\newcommand{\graphTwo}{%
+\begin{tikzpicture}[>=Stealth, st/.style={circle, draw, thick, minimum size=10mm, inner sep=0pt, font=\small},
+  lab/.style={font=\scriptsize, fill=white, inner sep=1pt}, x=3.1cm, y=2.3cm]
+\node[st] (s0) at (0,-1) {$0$};
+\node[font=\tiny, text=gray, above left=-1.5mm and -1.5mm of s0] {$E_{1}$};
+\foreach \n in {1,...,4}{\foreach \j in {1,2,3}{
+  \pgfmathtruncatemacro{\k}{(\n-1)*3+\j+1}
+  \node[st] (s\n\j) at (\j,-\n) {$\n_{\j}$};
+  \node[font=\tiny, text=gray, above left=-1.5mm and -1.5mm of s\n\j] {$E_{\k}$};
+}}
+% phase transitions
+\foreach \n in {1,...,4}{
+  \draw[->] (s\n1) -- node[lab, above]{$3\mu$} (s\n2);
+  \draw[->] (s\n2) -- node[lab, above]{$3\mu$} (s\n3);
+}
+% arrivals
+\draw[->] (s0) -- node[lab, above]{$\lambda$} (s11);
+\foreach \j in {1,2,3}{\foreach \n [evaluate=\n as \nn using int(\n+1)] in {1,2,3}{
+  \draw[->] (s\n\j) -- node[lab, left]{$\lambda$} (s\nn\j);
+}}
+% departures (end of phase 3)
+\draw[->] (s13) to[out=150, in=60, looseness=0.9] node[lab, above]{$3\mu$} (s0);
+\foreach \n [evaluate=\n as \np using int(\n-1)] in {2,3,4}{
+  \draw[->, densely dashed] (s\n3) to[out=135, in=-20, looseness=0.6] node[lab, pos=0.45]{$3\mu$} (s\np1);
+}
+\end{tikzpicture}}
+
+% ---------- structural schemes ----------
+\newcommand{\schemeOne}{%
+\begin{tikzpicture}[>=Stealth, font=\small,
+  srv/.style={circle, draw, thick, minimum size=9mm}, buf/.style={rectangle, draw, minimum width=5mm, minimum height=6mm}]
+\node (src) at (0,0) {$\lambda$};
+\node[circle, fill, inner sep=1.5pt] (sp) at (1.4,0) {};
+\draw[->] (src) -- (sp);
+\foreach \y/\i/\q in {0.9/1/q_1, -0.9/2/q_2}{
+  \node[buf] (b\i a) at (3.2,\y) {}; \node[buf, right=0pt of b\i a] (b\i b) {};
+  \node[srv] (p\i) at (5.0,\y) {S\i};
+  \draw[->] (sp) |- node[pos=0.75, above, font=\scriptsize]{$\q\lambda$} (b\i a.west);
+  \draw[->] (b\i b) -- (p\i); \draw[->] (p\i) -- ++(1.1,0) node[right]{};
+  \node[above=0pt of b\i a.north east, font=\scriptsize] {buffer 2};
+  \draw[->, gray] (b\i a.south west) ++(0,0) -- ++(-0.3,-0.35) node[below, font=\scriptsize]{lost};
+}
+\node[right, font=\scriptsize] at (6.1,0) {$b=10$ s, exponential};
+\end{tikzpicture}}
+
+\newcommand{\schemeTwo}{%
+\begin{tikzpicture}[>=Stealth, font=\small,
+  ph/.style={rectangle, draw, thick, minimum width=8mm, minimum height=7mm}, buf/.style={rectangle, draw, minimum width=5mm, minimum height=6mm}]
+\node (src) at (0,0) {$\lambda$};
+\node[buf] (b1) at (1.6,0) {}; \node[buf, right=0pt of b1] (b2) {}; \node[buf, right=0pt of b2] (b3) {};
+\node[above=0pt of b2.north, font=\scriptsize] {buffer 3};
+\node[ph] (f1) at (4.0,0) {Ph1}; \node[ph, right=4mm of f1] (f2) {Ph2}; \node[ph, right=4mm of f2] (f3) {Ph3};
+\node[draw, dashed, rounded corners, fit=(f1)(f3), inner sep=3mm, label={above:{Server ($E_3$): $b'=b/3$ per phase}}] {};
+\draw[->] (src) -- (b1); \draw[->] (b3) -- (f1); \draw[->] (f1) -- (f2); \draw[->] (f2) -- (f3); \draw[->] (f3) -- ++(1.1,0);
+\draw[->, gray] (b1.south west) -- ++(-0.3,-0.35) node[below, font=\scriptsize]{lost};
+\end{tikzpicture}}

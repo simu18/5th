@@ -1,0 +1,35 @@
+\multirow{3}{=}{Offered load $y$} & S1 & $y_1=q_1\lambda b$ & $y=\lambda b$ & 3.2500 & 5.0000 \\
+ & S2 & $y_2=q_2\lambda b$ & -- & 1.7500 & -- \\
+ & Total & $Y=y_1+y_2$ & $Y=y$ & 5.0000 & 5.0000 \\
+\hline
+\multirow{4}{=}{Utilization $\rho$} & S1 & $\rho_1=\sum\limits_{n_1>0}p$ & $\rho=1-p_0$ & 0.97965 & 0.99996 \\
+ & S2 & $\rho_2=\sum\limits_{n_2>0}p$ & -- & 0.91049 & -- \\
+ & Total & $\rho=(\rho_1+\rho_2)/2$ & $\rho$ & 0.94507 & 0.99996 \\
+ & Mean busy servers & $R=\rho_1+\rho_2$ & $R=\rho$ & 1.89014 & 0.99996 \\
+\hline
+\multirow{3}{=}{Queue length $l$} & S1 & $l_1=\sum (n_1-1)^{+}p$ & $l=\sum (n-1)^{+}p$ & 1.6121 & 2.7875 \\
+ & S2 & $l_2=\sum (n_2-1)^{+}p$ & -- & 1.2336 & -- \\
+ & Total & $L=l_1+l_2$ & $L=l$ & 2.8456 & 2.7875 \\
+\hline
+\multirow{3}{=}{Requests in system $m$} & S1 & $m_1=\sum n_1 p$ & $m=\sum n p$ & 2.5917 & 3.7875 \\
+ & S2 & $m_2=\sum n_2 p$ & -- & 2.1441 & -- \\
+ & Total & $M=m_1+m_2$ & $M=m$ & 4.7358 & 3.7875 \\
+\hline
+\multirow{3}{=}{Waiting time $w$, s} & S1 & $w_1=l_1/\lambda'_1$ & $w=l/\lambda'$ & 16.4557 & 27.8762 \\
+ & S2 & $w_2=l_2/\lambda'_2$ & -- & 13.5484 & -- \\
+ & Total & $W=L/\Lambda'$ & $W=w$ & 15.0552 & 27.8762 \\
+\hline
+\multirow{3}{=}{Time in system $u$, s} & S1 & $u_1=m_1/\lambda'_1$ & $u=m/\lambda'$ & 26.4557 & 37.8762 \\
+ & S2 & $u_2=m_2/\lambda'_2$ & -- & 23.5484 & -- \\
+ & Total & $U=M/\Lambda'$ & $U=u$ & 25.0552 & 37.8762 \\
+\hline
+\multirow{3}{=}{Loss probability $\pi$} & S1 & $\pi_1=\sum\limits_{n_1=3}p$ & $\pi=\sum\limits_{n=4}p$ & 0.6986 & 0.8000 \\
+ & S2 & $\pi_2=\sum\limits_{n_2=3}p$ & -- & 0.4797 & -- \\
+ & Total & $\pi=1-\Lambda'/\lambda$ & $\pi$ & 0.6220 & 0.8000 \\
+\hline
+\multirow{3}{=}{Throughput $\lambda'$, 1/s} & S1 & $\lambda'_1=q_1\lambda(1-\pi_1)$ & $\lambda'=\lambda(1-\pi)$ & 0.0980 & 0.1000 \\
+ & S2 & $\lambda'_2=q_2\lambda(1-\pi_2)$ & -- & 0.0910 & -- \\
+ & Total & $\Lambda'=\lambda'_1+\lambda'_2$ & $\Lambda'=\lambda'$ & 0.1890 & 0.1000 \\
+\hline
+Loss rate $\lambda''$, 1/s & Total & $\lambda''=\lambda-\Lambda'$ & $\lambda''=\lambda\pi$ & 0.3110 & 0.4000 \\
+\hline
